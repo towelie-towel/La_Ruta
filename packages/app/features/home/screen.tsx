@@ -15,18 +15,23 @@ import { ChevronDown } from '@tamagui/lucide-icons'
 import React, { useEffect, useState } from 'react'
 import { Linking } from 'react-native'
 import { useLink } from 'solito/link'
-import { isUserSignedIn, signOut } from '../../utils/supabase'
+import { type User } from '@supabase/supabase-js'
+import { isUserSignedIn, signOut, supabase, getUser } from '../../utils/supabase'
 import Constants from 'expo-constants'
 import { useSheetOpen } from '@t4/ui/src/atoms/sheet'
 import { SolitoImage } from 'solito/image'
 
 export function HomeScreen() {
   const [isSignedIn, setIsSignedIn] = useState(false)
+  const [user, setUser] = useState<User>()
 
   useEffect(() => {
     const fetchSignedInStatus = async () => {
+      const { user, error } = await getUser()
       const signedInStatus = await isUserSignedIn()
+      console.log({ user, error, signedInStatus })
       setIsSignedIn(signedInStatus)
+      user && setUser(user)
     }
 
     fetchSignedInStatus()
