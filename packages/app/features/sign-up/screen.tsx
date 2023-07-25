@@ -2,20 +2,25 @@ import { YStack } from '@t4/ui'
 import { useRouter } from 'solito/router'
 import { SignUpSignInComponent } from '@t4/ui/src/SignUpSignIn'
 import { signUp } from 'app/utils/supabase'
-import { type OAuthResponse, type Provider } from '@supabase/supabase-js'
+import { Provider } from '@supabase/supabase-js'
 import { signInWithOAuth } from 'app/utils/supabase/auth'
 
 export function SignUpScreen() {
   const { push } = useRouter()
 
-  const handleOAuthSignInWithPress = async (provider: Provider): Promise<OAuthResponse> => {
-    const oAuthResponse = await signInWithOAuth({ provider: provider })
+  const handleOAuthSignInWithPress = async (provider: Provider) => {
+    const { error } = await signInWithOAuth({
+      provider: provider, options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/password-reset/update-password`,
+      }
+    })
 
-    if (oAuthResponse.error) {
-      console.log('OAuth Sign in failed', oAuthResponse.error)
+    if (error) {
+      console.log('OAuth Sign in failed', error)
+      return
     }
 
-    return oAuthResponse
+    push('/')
   }
 
   const handleEmailSignUpWithPress = async (emailAddress, password) => {
