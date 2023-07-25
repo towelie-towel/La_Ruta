@@ -1,4 +1,4 @@
-import { SignInWithOAuthCredentials } from '@supabase/supabase-js'
+import { type SignInWithOAuthCredentials, type OAuthResponse } from '@supabase/supabase-js'
 import { Linking } from 'react-native'
 import { getToken, saveToken } from './cache'
 import { supabase } from './init'
@@ -20,15 +20,15 @@ const signIn = async (email, password) => {
   return { user, error, access_token, refresh_token }
 }
 
-const signInWithOAuth = async (credentials: SignInWithOAuthCredentials) => {
-  const { data, error } = await supabase.auth.signInWithOAuth(credentials)
+const signInWithOAuth = async (credentials: SignInWithOAuthCredentials): Promise<OAuthResponse> => {
+  const oAuthResponse = await supabase.auth.signInWithOAuth(credentials)
 
-  if (data?.url) {
+  if (oAuthResponse.data?.url) {
     // Redirect the user to the identity provider's authentication flow
-    Linking.openURL(data.url)
+    Linking.openURL(oAuthResponse.data.url)
   }
 
-  return { data, error }
+  return oAuthResponse
 }
 
 const signUp = async (email, password) => {
