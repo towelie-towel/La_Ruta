@@ -34,7 +34,11 @@ export function SignInScreen() {
   }
 
   const handleOAuthSignInWithPress = async (provider: Provider) => {
-    const { error } = await signInWithOAuth({ provider: provider })
+    const { error } = await signInWithOAuth({
+      provider: provider, options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/`,
+      }
+    })
 
     if (error) {
       console.log('OAuth Sign in failed', error)

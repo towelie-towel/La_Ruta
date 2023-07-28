@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { YStack, Paragraph, XStack, Button, Input, Stack } from 'tamagui'
 import { Link } from 'solito/link'
 import { ActivityIndicator } from 'react-native'
-import { type OAuthResponse, type Provider, type AuthError } from '@supabase/supabase-js'
+import { type Provider, type AuthError } from '@supabase/supabase-js'
 import { Svg, Defs, G, Path, Stop, Circle, LinearGradient } from "react-native-svg";
 
 

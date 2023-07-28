@@ -11,7 +11,7 @@ export function SignUpScreen() {
   const handleOAuthSignInWithPress = async (provider: Provider) => {
     const { error } = await signInWithOAuth({
       provider: provider, options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/password-reset/update-password`,
+        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/`,
       }
     })
 
